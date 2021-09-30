@@ -657,22 +657,6 @@ public function testRemoveComplexDirectory() {
     } else {
         log:printInfo("Executed `rmdir` operation");
     }
-
-    boolean|Error response2 = clientEp->isDirectory("/home/in/complexDirectory");
-    log:printInfo("Executed `isDirectory` operation after deleting a directory");
-    int i = 0;
-    while (response2 is boolean && response2 && i < 10) {
-         runtime:sleep(1);
-         response2 = clientEp->isDirectory("/home/in/complexDirectory");
-         log:printInfo("Executed `isDirectory` operation after deleting a directory");
-         i += 1;
-    }
-    if response2 is Error {
-        test:assertEquals(response2.message(), "/home/in/complexDirectory does not exists to check if it is a directory.",
-            msg = "Incorrect error message for non-existing file/directory at `isDirectory` operation after `rmdir` operation");
-    } else {
-        // test:assertFail(msg = "Error not created while invoking `isDirectory` operation after `rmdir` operation" );
-    }
 }
 
 @test:AfterSuite{}

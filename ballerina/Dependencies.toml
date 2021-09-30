@@ -10,11 +10,11 @@ dependencies-toml-version = "2"
 org = "ballerina"
 name = "ftp"
 version = "2.0.0"
-transitive = false
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.runtime"},
+	{org = "ballerina", name = "lang.string"},
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "task"},
 	{org = "ballerina", name = "test"}
@@ -27,7 +27,6 @@ modules = [
 org = "ballerina"
 name = "io"
 version = "1.0.0"
-transitive = false
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.value"}
@@ -40,7 +39,6 @@ modules = [
 org = "ballerina"
 name = "jballerina.java"
 version = "0.0.0"
-transitive = false
 modules = [
 	{org = "ballerina", packageName = "jballerina.java", moduleName = "jballerina.java"}
 ]
@@ -50,7 +48,6 @@ org = "ballerina"
 name = "lang.__internal"
 version = "0.0.0"
 scope = "testOnly"
-transitive = true
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.object"}
@@ -61,7 +58,6 @@ org = "ballerina"
 name = "lang.array"
 version = "0.0.0"
 scope = "testOnly"
-transitive = true
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.__internal"}
@@ -72,14 +68,12 @@ org = "ballerina"
 name = "lang.object"
 version = "0.0.0"
 scope = "testOnly"
-transitive = true
 
 [[package]]
 org = "ballerina"
 name = "lang.runtime"
 version = "0.0.0"
 scope = "testOnly"
-transitive = false
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.array"},
@@ -91,9 +85,20 @@ modules = [
 
 [[package]]
 org = "ballerina"
+name = "lang.string"
+version = "0.0.0"
+scope = "testOnly"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+modules = [
+	{org = "ballerina", packageName = "lang.string", moduleName = "lang.string"}
+]
+
+[[package]]
+org = "ballerina"
 name = "lang.value"
 version = "0.0.0"
-transitive = true
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -102,7 +107,6 @@ dependencies = [
 org = "ballerina"
 name = "log"
 version = "2.0.0"
-transitive = false
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -116,7 +120,6 @@ modules = [
 org = "ballerina"
 name = "observe"
 version = "0.9.0"
-transitive = true
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -125,7 +128,6 @@ dependencies = [
 org = "ballerina"
 name = "task"
 version = "2.0.0"
-transitive = false
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "time"}
@@ -139,7 +141,6 @@ org = "ballerina"
 name = "test"
 version = "0.0.0"
 scope = "testOnly"
-transitive = false
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -151,7 +152,6 @@ modules = [
 org = "ballerina"
 name = "time"
 version = "2.0.0"
-transitive = true
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
