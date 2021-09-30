@@ -44,7 +44,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.ballerina.stdlib.ftp.util.FtpConstants.ARRAY_SIZE;
 import static io.ballerina.stdlib.ftp.util.FtpConstants.ENTITY_BYTE_STREAM;
 import static io.ballerina.stdlib.ftp.util.FtpConstants.READ_INPUT_STREAM;
 import static io.ballerina.stdlib.ftp.util.FtpConstants.VFS_CLIENT_CONNECTOR;
@@ -112,9 +111,8 @@ public class FtpClient {
         return null;
     }
 
-    public static Object getFirst(Environment env, BObject clientConnector, BString filePath, long arraySize) {
+    public static Object getFirst(Environment env, BObject clientConnector, BString filePath) {
         clientConnector.addNativeData(ENTITY_BYTE_STREAM, null);
-        clientConnector.addNativeData(ARRAY_SIZE, arraySize);
         Future balFuture = env.markAsync();
         FtpClientListener connectorListener = new FtpClientListener(balFuture, false,
                 remoteFileSystemBaseMessage -> FtpClientHelper.executeGetAction(remoteFileSystemBaseMessage,
@@ -125,9 +123,8 @@ public class FtpClient {
         return null;
     }
 
-    public static Object get(BObject clientConnector, long arraySize) {
-        return FtpClientHelper.generateInputStreamEntry((InputStream) clientConnector.getNativeData(READ_INPUT_STREAM),
-                arraySize);
+    public static Object get(BObject clientConnector) {
+        return FtpClientHelper.generateInputStreamEntry((InputStream) clientConnector.getNativeData(READ_INPUT_STREAM));
     }
 
     public static Object closeInputByteStream(BObject clientObject) {
@@ -184,13 +181,9 @@ public class FtpClient {
             if (compressInput) {
                 compressedStream = FtpUtil.compress(stream, (inputContent.getStringValue(StringUtils.fromString(
                         FtpConstants.INPUT_CONTENT_FILE_PATH_KEY))).getValue());
-                if (compressedStream != null) {
-                    message = FtpClientHelper.getCompressedMessage(clientConnector, (inputContent.getStringValue(
-                            StringUtils.fromString(FtpConstants.INPUT_CONTENT_FILE_PATH_KEY))).getValue(),
-                            propertyMap, compressedStream);
-                } else {
-                    return FtpUtil.createError("Error while compressing a file", Error.errorType());
-                }
+                message = FtpClientHelper.getCompressedMessage(clientConnector, (inputContent.getStringValue(
+                        StringUtils.fromString(FtpConstants.INPUT_CONTENT_FILE_PATH_KEY))).getValue(),
+                        propertyMap, compressedStream);
             } else {
                 try {
                     message = FtpClientHelper.getUncompressedMessage(clientConnector, (inputContent.getStringValue(
@@ -216,9 +209,7 @@ public class FtpClient {
         }
         connector.send(message, FtpAction.PUT, filePath, null);
         try {
-            if (stream != null) {
-                stream.close();
-            }
+            stream.close();
             if (compressedStream != null) {
                 compressedStream.close();
             }
